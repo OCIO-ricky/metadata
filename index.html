@@ -4,6 +4,7 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <link href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/css/foundation.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="./src/styles.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet" />
 </head>
 
 <div class="container">
@@ -20,18 +21,22 @@
     <input id="title" type="text" name="title" placeholder="dataset title" />
     <label class="control-label">Owner Organization (Admin Code)</label>
     <div class="form-control">
-      <select id="admincode">
-      <option value="">-- Select --</option>
-      </select>
-    </div>
-   
+      <input type="text" list="admincode" id="admincodeCtrl" value="" placeholder="Start typing..." 
+      style="text-transform: uppercase;"
+      autocomplete="off"
+      onkeypress="if (event.keyCode == 13) return false;" />
+       <datalist id="admincode" class="js-example-basic-multiple" >
+         <option value="">-- Select --</option>
+       </datalist>
+     </div>
+
     <div class="form-group steward1" data-cid="stewards1">
         <label class="control-label" for="steward1">Data Steward #1</label>
-        <input id="steward1" type="text" name="steward1" placeholder="user-id" />
+        <input id="steward1" type="text" name="steward1" placeholder="user-id" style="text-transform: uppercase;" maxlength="5"/>
     </div>
     <div class="form-group steward2" >
       <label class="control-label" for="steward1">Data Steward #2</label>
-      <input id="steward2" type="text" name="steward2" placeholder="user-id" />
+      <input id="steward2" type="text" name="steward2" placeholder="user-id" style="text-transform: uppercase;" maxlength="5"/>
     </div>
     <label class="control-label">
       Please describe the dataset content from a mission perspective. What
