@@ -1,9 +1,15 @@
 // JRF1@CDC.GOV
 // Prototype v0.9 for internal use only
 //
+
+//fs = require("fs");
 //check if browser supports file api and filereader features
 if (window.File && window.FileReader && window.FileList && window.Blob) {
   var myFiles = [];
+  var $tw = $tw || Object.create(null);
+  const uploadUrl ="/uploadchunk";
+  const chunkSize = 6000000;  // send in 6mb chunks
+
   // This function reads a "slice" of the file only rather that the entire file!!
   function readBlob(opt_startByte, opt_stopByte) {
     var files = myFiles;
@@ -80,6 +86,47 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     handleFileSelect(evt);
   }
 
+
+
+
+  function send(file, size, start, end) {
+    var formdata = new FormData();
+    var xhr = new XMLHttpRequest();
+
+    if (size - end < 0) { 
+        end = size;
+    }
+    if (end < size) {
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                console.log('Done Sending Chunk');
+                send(file, size, start + sliceSize, start + (sliceSize * 2))
+            }
+        }
+    } else {
+        console.log('Upload complete');
+    }
+
+    xhr.open('POST', uploadUrl, true);
+
+    var slicedPart = slice(file, start, end);
+
+    formdata.append('start', start);
+    formdata.append('end', end);
+    formdata.append('file', slicedPart);
+    console.log('Sending Chunk (Start - End): ' + start + ' ' + end);
+
+    xhr.send(formdata);
+  }
+  function slice(file, start, end) {
+    var slice = file.mozSlice ? file.mozSlice :
+                file.webkitSlice ? file.webkitSlice :
+                file.slice ? file.slice : noop;
+    
+    return slice.bind(file)(start, end);
+  }
+
+
   // Here are the event listeners handlers (code).
   // the handleFileSelect() will display the slected file and some metadata
   function handleFileSelect(evt) {
@@ -89,8 +136,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
     var files = myFiles;
 
-    // files is a FileList of File objects. List some properties.
-    var output = [];
+   // files is a FileList of File objects. List some properties.
+    var output = [], meta = [];
     for (var i = 0; i < files.length; i++) {
       var f = files[i];
       output.push(
@@ -104,10 +151,18 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : "n/a",
         "</li>"
       );
+            
+      var numberofChunks = Math.ceil(f.size/chunkSize);
+      var start =0; 
+      var chunkEnd = start + chunkSize;
+      //upload the file in chunks
+    //  send(f, f.size, start, chunkSize);
+
     }
     document.getElementById("list").innerHTML =
       "<ul>" + output.join("") + "</ul>";
   }
+
   function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
@@ -142,6 +197,26 @@ $.getJSON(url, function(admincodes) {
           '<option value="' + admincodes[i]['AdminCode'] + '">' + admincodes[i]['LongName'] + '</option>';
   }
 });
+
+
+/* // Parse a block of name:value fields. The `fields` object is used as the basis for the return value
+$tw.utils.parseFields = function(text,fields) {
+	fields = fields || Object.create(null);
+	text.split(/\r?\n/mg).forEach(function(line) {
+		if(line.charAt(0) !== "#") {
+			var p = line.indexOf(":");
+			if(p !== -1) {
+				var field = line.substr(0, p).trim(),
+					value = line.substr(p+1).trim();
+				if(field) {
+					fields[field] = value;
+				}
+			}
+		}
+	});
+	return fields;
+};
+ */
 
 // GET CURRENT USER ID  (NOT WORKING !!)
 var username="unknown";
