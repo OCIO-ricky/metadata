@@ -132,14 +132,14 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 
 // POPULATE THE ADMINCODES COMBOBOX WITH JSON.
-const url = "./data/test.json";
+const url = "./data/admincodes.json";
 $.getJSON(url, function(birds) {
-  console.log(birds); // this will show the info it in firebug console
+  console.log(admincodes); // this will show the info it in firebug console
   var ele = document.getElementById('admincode');
-  for (var i = 0; i < birds.length; i++) {
+  for (var i = 0; i < admincodes.length; i++) {
       // POPULATE THE ADMINCODES COMBOBOX WITH JSON.
       ele.innerHTML = ele.innerHTML +
-          '<option value="' + birds[i]['ID'] + '">' + birds[i]['Bird_Name'] + '</option>';
+          '<option value="' + admincodes[i]['AdminCode'] + '">' + admincodes[i]['LongName'] + '</option>';
   }
 });
 
