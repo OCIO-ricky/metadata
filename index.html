@@ -1,0 +1,64 @@
+<head>
+  <meta charset="utf-8">
+  <title>Html5 local file api tut</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/css/foundation.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+
+<div class="container">
+  <h1>Online Metadata Capture Form</h1>
+  <h3>(Prototype / Experimental)</h3>
+  <p>
+    Thank you for taking the time to identify a new Data Source or Dataset
+    for inclusion in the Enterprise-Wide Data Catalog (EDC). By providing us
+    the following metadata, you are helping your Data Steward initiate the
+    metadata capture.
+  </p>
+  <form class="my-form">
+    <label class="control-label">Dataset title or short description</label>
+    <input id="title" type="text" name="title" placeholder="dataset title" />
+    <label class="control-label">Owner Organization (Admin Code)</label>
+    <div class="form-control">
+      <select id="admincode">
+      <option value="">-- Select --</option>
+      </select>
+    </div>
+   
+    <div class="form-group steward1" data-cid="stewards1">
+        <label class="control-label" for="steward1">Data Steward #1</label>
+        <input id="steward1" type="text" name="steward1" placeholder="user-id" />
+    </div>
+    <div class="form-group steward2" >
+      <label class="control-label" for="steward1">Data Steward #2</label>
+      <input id="steward2" type="text" name="steward2" placeholder="user-id" />
+    </div>
+    <label class="control-label">
+      Please describe the dataset content from a mission perspective. What
+      is it?, and how are we using this data? add any other comments that will
+      help others understand its purpose and potential use:
+    </label>
+    <textarea rows="7"></textarea>
+    <div id="drop_zone">
+      <b>Click the "Open File Dialog" button or drag and drop the desired dataset to automatically extract a subset of its technical metadata (column names, file name, etc)</b><br><br>
+      <input type="file" id="files" name="files[]" multiple />
+      <label class="button" for="files">Open a File Dialog</label>
+      <output id="list"></output>
+    </div>
+    <div class="btn-block">
+      <button type="submit" href="/">Submit Metadata</button>
+    </div>  
+    <small>* The information given in this Form will be submitted to the data
+      steward for inclusion in the EDC.</small>
+  </form>
+  Read bytes: <span class="readBytesButtons">
+    <button data-startbyte="0" data-endbyte="1024">0-1024</button>
+    <button data-startbyte="17" data-endbyte="19">17-19</button>
+    <button data-startbyte="30" data-endbyte="50">30-50</button>
+    <button>entire file</button>
+  </span>
+  <div id="byte_range"></div>
+  <div id="byte_content"></div>
+  <script type="text/javascript" src="./src/javascript.js"></script>
+  <input type="file" name="jsonfile" id="jsonfile">
+</div>

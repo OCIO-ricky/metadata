@@ -1,0 +1,92 @@
+#drop_zone {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 85%;
+  font-family: sans-serif;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: left;
+}
+body {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+h1 {
+  text-align: center;
+}
+p {
+  text-align: center;
+}
+div {
+  text-align: center;
+}
+
+#drop_zone.highlight {
+  border-color: purple;
+}
+p {
+  width: 750px;
+  margin: 0 auto;
+  text-align: center;
+}
+.my-form {
+  width: 770px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 2px 5px #ccc;
+  margin-bottom: 10px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.btn-block {
+  margin-top: 20px;
+  text-align: center;
+}
+.button:hover {
+  background: #ddd;
+}
+
+#files {
+  display: none;
+}
+
+.form-control {
+  text-align: left;
+}
+
+.control-label {
+  text-align: left;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 550;
+}
+
+#admincode {
+  width: 240px;
+  text-align: left;
+  }
+
+#steward1 {
+width: 120px;
+}
+#steward2 {
+  width: 120px;
+  }
+@media only screen and (min-width : 768px) {
+  .form-group.steward1,
+  .form-group.steward2{
+    display:inline-block;
+    width:48%;
+    vertical-align: top;
+  }
+
+}
