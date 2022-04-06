@@ -143,3 +143,10 @@ $.getJSON(url, function(admincodes) {
   }
 });
 
+// GET CURRENT USER ID  (NOT WORKING !!)
+var username="unknown";
+try {
+  let username = new ActiveXObject("WScript.Network");
+} catch {;}
+if(username != "unknown")
+   alert(username); 
