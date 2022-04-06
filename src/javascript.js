@@ -133,7 +133,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 // POPULATE THE ADMINCODES COMBOBOX WITH JSON.
 const url = "./data/admincodes.json";
-$.getJSON(url, function(birds) {
+$.getJSON(url, function(admincodes) {
   console.log(admincodes); // this will show the info it in firebug console
   var ele = document.getElementById('admincode');
   for (var i = 0; i < admincodes.length; i++) {
