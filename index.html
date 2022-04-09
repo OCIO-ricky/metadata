@@ -3,10 +3,11 @@
   <title>Html5 local file api tut</title>
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <link href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/css/foundation.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="./src/styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/styles.css" />
 </head>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/md5.js"></script>
 <div class="container">
   <h1>Online Metadata Capture Form</h1>
   <h3>(Prototype / Experimental)</h3>
@@ -23,8 +24,7 @@
     <div class="form-control">
       <input type="text" list="admincode" id="admincodeCtrl" value="" placeholder="Start typing..." 
       style="text-transform: uppercase;"
-      autocomplete="off"
-      onkeypress="if (event.keyCode == 13) return false;" />
+      autocomplete="off" />
        <datalist id="admincode" class="js-example-basic-multiple" >
          <option value="">-- Select --</option>
        </datalist>

@@ -7,8 +7,9 @@
 if (window.File && window.FileReader && window.FileList && window.Blob) {
   var myFiles = [];
   var $tw = $tw || Object.create(null);
-  const uploadUrl ="/uploadchunk";
-  const chunkSize = 6000000;  // send in 6mb chunks
+  const uploadUrl ="http://localhost:3000/upload";
+  const chunkSize = 3000000;  // send in 3mb chunks
+  const MaxChunks = 75;
 
   // This function reads a "slice" of the file only rather that the entire file!!
   function readBlob(opt_startByte, opt_stopByte) {
@@ -89,7 +90,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 
 
-  function send(file, size, start, end) {
+  function send(file, size, start, end, numberofChunks, chunkSize, fileId) {
     var formdata = new FormData();
     var xhr = new XMLHttpRequest();
 
@@ -100,7 +101,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 console.log('Done Sending Chunk');
-                send(file, size, start + sliceSize, start + (sliceSize * 2))
+                send(file, size, start + chunkSize, start + (chunkSize * 2),numberofChunks, chunkSize, fileId )
             }
         }
     } else {
@@ -110,11 +111,15 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     xhr.open('POST', uploadUrl, true);
 
     var slicedPart = slice(file, start, end);
+    var blockCount = Math.ceil(end / chunkSize); // Total number of slices
+    formdata.append('uploadId', fileId);
+    formdata.append('chunkIndex', blockCount);  
+    formdata.append('totalChunksCount', numberofChunks);
+    formdata.append('chunking','true');
+    formdata.append('file', slicedPart, file.name);  // <= here goes the file slice
 
-    formdata.append('start', start);
-    formdata.append('end', end);
-    formdata.append('file', slicedPart);
-    console.log('Sending Chunk (Start - End): ' + start + ' ' + end);
+  //  console.log('Sending Chunk for '+fileId+' (Start - End): ' + start + ' ' + end);
+    console.log('Sending Chunk for '+fileId+' # ' + blockCount + ' out of ' + numberofChunks );
 
     xhr.send(formdata);
   }
@@ -152,12 +157,17 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         "</li>"
       );
             
-      var numberofChunks = Math.ceil(f.size/chunkSize);
+      var filesize = f.size;
+      var numberofChunks = Math.ceil(filesize/chunkSize);
+      if( filesize > ( chunkSize * MaxChunks))
+           filesize = chunkSize * MaxChunks;
+      var numberofChunks = Math.ceil(filesize/chunkSize)+1;
       var start =0; 
       var chunkEnd = start + chunkSize;
-      //upload the file in chunks
-    //  send(f, f.size, start, chunkSize);
+      var md5 = CryptoJS.MD5(f.name+((new Date()).getTime())+i);
 
+      //upload the file in chunks
+       send(f, filesize, start, chunkEnd, numberofChunks, chunkSize, md5);
     }
     document.getElementById("list").innerHTML =
       "<ul>" + output.join("") + "</ul>";
@@ -216,8 +226,8 @@ $tw.utils.parseFields = function(text,fields) {
 	});
 	return fields;
 };
- */
 
+*/
 // GET CURRENT USER ID  (NOT WORKING !!)
 var username="unknown";
 try {
